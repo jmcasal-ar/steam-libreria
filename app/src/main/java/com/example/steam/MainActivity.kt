@@ -1,9 +1,11 @@
 package com.example.steam
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.view.*
 import com.google.android.material.snackbar.Snackbar as Snackbar
 
@@ -12,6 +14,7 @@ class MainActivity : AppCompatActivity(), GamesListener {
 
     private lateinit var  rvGames : RecyclerView
     private lateinit var coordinatorLayout: CoordinatorLayout
+    private lateinit var fabAdd: FloatingActionButton
     private val adapter: GamesAdapter by lazy { GamesAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +32,16 @@ class MainActivity : AppCompatActivity(), GamesListener {
 
     private fun setupUI() {
         coordinatorLayout = findViewById(R.id.coordinatorLayout)
+        fabAdd = findViewById(R.id.floatingActionButton)
+        fabAdd.setOnClickListener{launchAddGameActivity()}
         rvGames = findViewById(R.id.rvGames)
         rvGames.adapter = adapter
+    }
+
+    private fun launchAddGameActivity() {
+        startActivity(
+            Intent(this, AddGameActivity::class.java)
+        )
     }
 
     override fun onGameClicked(game: Game) {
