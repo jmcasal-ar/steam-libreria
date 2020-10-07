@@ -34,6 +34,7 @@ class GamesAdapter(val listener: GamesListener): RecyclerView.Adapter<GamesAdapt
 
     override fun getItemCount() = games.size
 
+    //provee el viewholder con la posicion y con eso el item de cada uno de los viedeos juegos
     override fun onBindViewHolder(holder: GamesAdapter.GamesViewHolder, position: Int) {
         holder.apply {
             //recorremos la lista según la posición. Apply nos permite recorrer directamente la propiedad
