@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity(), GamesListener {
 
         setupUI()
         retrieveGames()
+
+
+
     }
 
     private fun retrieveGames() {
@@ -46,6 +49,11 @@ class MainActivity : AppCompatActivity(), GamesListener {
     }
 
     override fun onGameClicked(game: Game) {
+        //ejemplo de como cargar un juego
+        val intent = Intent()
+        //como hacemos para pasar un tipo game?
+        intent.putExtra("Game", game)
+
         /*
         Snackbar
             .make(coordinatorLayout, "work in progres", Snackbar.LENGTH_LONG)
