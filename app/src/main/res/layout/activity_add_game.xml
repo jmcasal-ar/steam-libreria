@@ -37,6 +37,22 @@
         android:layout_marginTop="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDescription"
+            style='style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"'
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="text"
+            android:maxLines="3"
+            android:singleLine="false" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPrice"
             style='style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"'
             android:layout_width="match_parent"

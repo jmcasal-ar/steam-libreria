@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.steam.db.GamesRpository
 import com.google.android.material.textfield.TextInputEditText
 
 class AddGameActivity : AppCompatActivity() {
     private lateinit var etName: TextInputEditText
+    private lateinit var etDescription: TextInputEditText
     private lateinit var etPrice: TextInputEditText
     private lateinit var etDiscountPrice: TextInputEditText
     private lateinit var btnSave: Button
@@ -21,6 +23,7 @@ class AddGameActivity : AppCompatActivity() {
 
     private fun setupUI() {
         etName = findViewById(R.id.etName)
+        etDescription = findViewById(R.id.etDescription)
         etPrice = findViewById(R.id.etPrice)
         etDiscountPrice = findViewById(R.id.etDiscountPrice)
         btnSave = findViewById(R.id.btnSave)
@@ -30,11 +33,30 @@ class AddGameActivity : AppCompatActivity() {
     private fun saveGame() {
         validateData()
         if (isDataValid()) {
+            GamesRpository(GameApplication().applicationContext)
+                .addGame(createGameFromInput())
             showMessage("Game added")
             finish()
         } else {
             showMessage("Complete all the fields")
         }
+    }
+
+    private fun createGameFromInput(): Game {
+        return Game(
+            R.drawable.ic_launcher_foreground,
+            getTextFrom(etName),
+            getPercentDiscount(),
+            getTextFrom(etDiscountPrice),
+            getTextFrom(etPrice),
+            getTextFrom(etDescription)
+        )
+    }
+
+    private fun getPercentDiscount(): String {
+        val price = getTextFrom(etPrice).toDouble()
+        val discount = getTextFrom(etDiscountPrice).toDouble()
+        return  (price * discount / 100).toString()
     }
 
     private fun showMessage(s: String) =
