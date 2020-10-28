@@ -16,14 +16,16 @@ object GamesProvider {
             "Surival Evolved",
             "-17%",
             "29,99",
-            "24,89"
+            "24,89",
+            "Bioshop is a FPS game" //Todo agregar una imagen verdadera
         ),
         Game(
             R.drawable.ic_launcher_foreground,
             "Counter Strike: Global Offensive",
             "-50%",
             "14,99",
-            "7,49"
+            "7,49",
+            "Bioshop is a FPS game" //Todo agregar una imagen verdadera
         )
     )
 }
