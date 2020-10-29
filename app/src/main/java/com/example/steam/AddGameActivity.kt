@@ -33,7 +33,7 @@ class AddGameActivity : AppCompatActivity() {
     private fun saveGame() {
         validateData()
         if (isDataValid()) {
-            GamesRpository(GameApplication().applicationContext)
+            GamesRpository(this@AddGameActivity.applicationContext)
                 .addGame(createGameFromInput())
             showMessage("Game added")
             finish()

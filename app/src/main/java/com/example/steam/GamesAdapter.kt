@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.steam.extensions.toPercentDiscount
+import com.example.steam.extensions.toPriceFormat
 
 //casteo el listener con GamesListener
 //cuando llamemos a esta clase hay que darle una implementación de una interfaz
@@ -40,9 +42,9 @@ class GamesAdapter(val listener: GamesListener): RecyclerView.Adapter<GamesAdapt
             //recorremos la lista según la posición. Apply nos permite recorrer directamente la propiedad
             imgGame.setImageResource(games[position].resImage)
             txtName.text = games[position].name
-            txtPerCent.text = games[position].perCentDiscount
-            txtDiscount.text = games[position].discountPrice
-            txtPrice.text = games[position].price
+            txtPerCent.text = games[position].perCentDiscount.toPercentDiscount()
+            txtDiscount.text = games[position].discountPrice.toPriceFormat()
+            txtPrice.text = games[position].price.toPriceFormat()
 
             //tratamos de capturar el click
             itemView.setOnClickListener {

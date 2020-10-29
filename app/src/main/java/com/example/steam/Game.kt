@@ -30,6 +30,8 @@ class Game (
     //importante hacer id nulleable
     @DatabaseField(id = true)
     val id: Int? = null
-): Parcelable
+): Parcelable {
+    constructor() : this(0, "","","","","")
+}
 
 //Parcelable se utiliza para poder castear

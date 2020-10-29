@@ -15,6 +15,7 @@ import androidx.core.content.res.ComplexColorCompat.inflate
 import androidx.core.graphics.drawable.DrawableCompat.inflate
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.steam.db.GamesRpository
 import com.example.steam.preferences.PreferenceActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -36,17 +37,19 @@ class MainActivity : AppCompatActivity(), GamesListener {
         setContentView(R.layout.activity_main)
 
         setupUI()
-        retrieveGames()
+
     }
 
     override fun onResume() {
         super.onResume()
         //esto es para mostar u ocultar el boton fab a través de la visibility
         handleFabAddVisibility()
+        retrieveGames()
     }
 
     private fun retrieveGames() {
-        val games = GamesProvider.getGames()
+        val games = GamesRpository(this@MainActivity.applicationContext).getGames()
+        //val games = GamesProvider.getGames()
         adapter.updateGames(games)
     }
 
