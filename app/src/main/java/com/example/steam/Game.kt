@@ -3,6 +3,8 @@ package com.example.steam
 import android.os.Parcelable
 import com.j256.ormlite.field.DatabaseField
 import com.j256.ormlite.table.DatabaseTable
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
 
 
@@ -13,6 +15,7 @@ import kotlinx.android.parcel.Parcelize
 //Nos va a servir para que dentro del adapter tengamos to do definido
 //parcelize se utiliza para parsear.
 @Parcelize
+
 class Game (
     @DatabaseField(columnName = "ImageResource")
     val resImage: Int,
@@ -35,3 +38,13 @@ class Game (
 }
 
 //Parcelable se utiliza para poder castear
+
+//Creamos nueva clase para conectar a json, porque sino estamos modificando mucho la clase game que es la principal
+@JsonClass(generateAdapter = true)
+class GameResponse(
+    val name: String,
+    val description: String,
+    val price: String,
+            @Json(name = "discount_price")
+    val discountPrice: String
+)

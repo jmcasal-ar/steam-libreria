@@ -16,6 +16,7 @@ import androidx.core.graphics.drawable.DrawableCompat.inflate
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.steam.db.GamesRpository
+import com.example.steam.network.GamesNetworkClient
 import com.example.steam.preferences.PreferenceActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity(), GamesListener {
         setContentView(R.layout.activity_main)
 
         setupUI()
+
+
 
     }
 
