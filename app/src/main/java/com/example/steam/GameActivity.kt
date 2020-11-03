@@ -12,4 +12,5 @@ class GameActivity : AppCompatActivity() {
         val game = intent.extras?.getParcelable<Game>("GAME")
         game?.name
     }
+
 }

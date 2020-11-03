@@ -1,11 +1,16 @@
 package com.example.steam
 
+import android.app.PendingIntent
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.steam.db.GamesRpository
+import com.example.steam.notifications.GameNotifChannelManager
 import com.google.android.material.textfield.TextInputEditText
 
 class AddGameActivity : AppCompatActivity() {
@@ -35,11 +40,36 @@ class AddGameActivity : AppCompatActivity() {
         if (isDataValid()) {
             GamesRpository(this@AddGameActivity.applicationContext)
                 .addGame(createGameFromInput())
-            showMessage("Game added")
+            showNotificacionts()
             finish()
         } else {
             showMessage("Complete all the fields")
         }
+    }
+
+    private fun showNotificacionts() {
+        GameNotifChannelManager.createNotificationChannelForNewGames(this)
+
+        val intent = Intent(this, GameActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK) //Borra lo q tenemos abierto de la app
+        }
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        NotificationCompat.Builder(this, GameNotifChannelManager.NEW_GAMES_CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle("New game added")
+            .setContentText("Enter and see the new game add with discounts")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+            .also {
+                notification ->
+                NotificationManagerCompat
+                    .from(this)
+                    .notify(1, notification)
+            }
+
     }
 
     private fun createGameFromInput(): Game {
