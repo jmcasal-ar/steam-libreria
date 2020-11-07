@@ -4,6 +4,9 @@ import android.content.Context
 import com.example.steam.Game
 import com.j256.ormlite.android.apptools.OpenHelperManager
 import com.j256.ormlite.dao.Dao
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class GamesRpository(context: Context) {
 
@@ -23,7 +26,19 @@ class GamesRpository(context: Context) {
 
     fun updateGame(game: Game) = dao.update(game)
 
-    fun getGames() = dao.queryForAll()
+    //asi hacemos un enumerable
+    fun getGames(): Single<List<Game>> {
+
+        return Single.
+        fromCallable{ dao.queryForAll() } //crea un obsevable (Single) a ima función que se va a lianar, es decir, la encapsula
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+        /*return  Single.just(dao.queryForAll()) //crea instancia del tipo obsevable (Single) a partir de la llamada a dao.queryfor
+            .subscribeOn(Scheduler.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            */
+
+    }
 
     fun getGame(gameId: Int) = dao.queryForId(gameId)
 

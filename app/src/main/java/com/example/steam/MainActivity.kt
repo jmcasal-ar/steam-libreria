@@ -2,25 +2,25 @@ package com.example.steam
 
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View.inflate
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.res.ColorStateListInflaterCompat.inflate
-import androidx.core.content.res.ComplexColorCompat.inflate
-import androidx.core.graphics.drawable.DrawableCompat.inflate
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.steam.db.GamesRpository
-import com.example.steam.network.GamesNetworkClient
 import com.example.steam.preferences.PreferenceActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.activity_main.view.*
-import com.google.android.material.snackbar.Snackbar as Snackbar
+import com.google.android.material.snackbar.Snackbar
+import io.reactivex.Single
+import io.reactivex.SingleObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 //despues de la compa implementamos la interafaz
 class MainActivity : AppCompatActivity(), GamesListener {
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), GamesListener {
     private val preferences: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(this)
     }
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +52,29 @@ class MainActivity : AppCompatActivity(), GamesListener {
     }
 
     private fun retrieveGames() {
+        /*
         val games = GamesRpository(this@MainActivity.applicationContext).getGames()
         //val games = GamesProvider.getGames()
         adapter.updateGames(games)
+        */
+        GamesRpository(this@MainActivity.applicationContext)
+            .getGames()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<List<Game>>{
+                override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
+                }
+
+                override fun onSuccess(games: List<Game>) {
+                    adapter.updateGames(games)
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.i("MainActivity", "Error al obtener juegos", e)
+                }
+
+            })
     }
 
     private fun setupUI() {
@@ -69,12 +90,32 @@ class MainActivity : AppCompatActivity(), GamesListener {
     }
 
     private fun handleFabAddVisibility() {
-        val showIdShowFabAdd = preferences.getBoolean("switchShowAddButton", true)
+        Single.fromCallable { preferences.getBoolean("switchShowAddButton", true) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<Boolean>{
+                override fun onSubscribe(d: Disposable) {
+                    compositeDisposable.add(d)
+                }
+
+                override fun onSuccess(shouldShowFabAdd: Boolean) {
+                    if (shouldShowFabAdd) {
+                        fabAdd.show()
+                    } else {
+                        fabAdd.hide()
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.i("MainActivity","Error al obtener las preferencias - shouldShowFabAdd", e)
+                }
+            })
+        /*val showIdShowFabAdd = preferences.getBoolean("switchShowAddButton", true)
         if (showIdShowFabAdd){
             fabAdd.show()
         } else  {
             fabAdd.hide()
-        }
+        }*/
     }
 
     private fun launchAddGameActivity() {
@@ -132,5 +173,10 @@ class MainActivity : AppCompatActivity(), GamesListener {
         startActivity(
             Intent(this, PreferenceActivity::class.java)
         )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        compositeDisposable.clear()
     }
 }
