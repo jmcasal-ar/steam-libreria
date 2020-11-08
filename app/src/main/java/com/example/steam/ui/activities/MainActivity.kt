@@ -1,4 +1,4 @@
-package com.example.steam
+package com.example.steam.ui.activities
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,8 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.steam.db.GamesRpository
+import com.example.steam.data.Game
+import com.example.steam.R
+import com.example.steam.db.GamesDao
 import com.example.steam.preferences.PreferenceActivity
+import com.example.steam.ui.adapter.GamesAdapter
+import com.example.steam.ui.adapter.GamesListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Single
@@ -23,12 +27,17 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 //despues de la compa implementamos la interafaz
-class MainActivity : AppCompatActivity(), GamesListener {
+class MainActivity : AppCompatActivity(),
+    GamesListener {
 
     private lateinit var  rvGames : RecyclerView
     private lateinit var coordinatorLayout: CoordinatorLayout
     private lateinit var fabAdd: FloatingActionButton
-    private val adapter: GamesAdapter by lazy { GamesAdapter(this) }
+    private val adapter: GamesAdapter by lazy {
+        GamesAdapter(
+            this
+        )
+    }
     private val preferences: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(this)
     }
@@ -57,7 +66,7 @@ class MainActivity : AppCompatActivity(), GamesListener {
         //val games = GamesProvider.getGames()
         adapter.updateGames(games)
         */
-        GamesRpository(this@MainActivity.applicationContext)
+        GamesDao(this@MainActivity.applicationContext)
             .getGames()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

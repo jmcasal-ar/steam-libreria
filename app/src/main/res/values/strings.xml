@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Steam</string>
+    <string name="error_addingGame">No se pudo agregar el juego, intente más tarde</string>
 </resources>

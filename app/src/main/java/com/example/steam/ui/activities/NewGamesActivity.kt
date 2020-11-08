@@ -1,8 +1,10 @@
-package com.example.steam
+package com.example.steam.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.steam.data.GameResponse
+import com.example.steam.R
 import com.example.steam.network.GamesNetworkClient
 import retrofit2.Call
 import retrofit2.Callback

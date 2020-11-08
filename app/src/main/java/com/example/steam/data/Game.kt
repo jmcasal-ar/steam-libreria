@@ -1,4 +1,4 @@
-package com.example.steam
+package com.example.steam.data
 
 import android.os.Parcelable
 import com.j256.ormlite.field.DatabaseField

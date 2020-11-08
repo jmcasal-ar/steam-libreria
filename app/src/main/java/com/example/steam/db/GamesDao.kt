@@ -1,14 +1,15 @@
 package com.example.steam.db
 
 import android.content.Context
-import com.example.steam.Game
+import com.example.steam.data.Game
 import com.j256.ormlite.android.apptools.OpenHelperManager
 import com.j256.ormlite.dao.Dao
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class GamesRpository(context: Context) {
+class GamesDao(context: Context) {
 
     //creamos una instancia dao que tiene su int
     private var dao: Dao<Game, Int>
@@ -20,7 +21,12 @@ class GamesRpository(context: Context) {
     }
 
     //metodo para crear juego
-    fun addGame(game:Game) = dao.create(game)
+    fun addGame(game: Game): Completable {
+        return Completable
+            .fromCallable { dao.create(game) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 
     fun deleteGame(game: Game) = dao.delete(game)
 

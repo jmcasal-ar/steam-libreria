@@ -1,5 +1,7 @@
 package com.example.steam
 
+import com.example.steam.data.Game
+
 object GamesProvider {
 
     fun getGames() = listOf<Game>(

@@ -2,7 +2,7 @@ package com.example.steam.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import com.example.steam.Game
+import com.example.steam.data.Game
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper
 import com.j256.ormlite.support.ConnectionSource
 import com.j256.ormlite.table.TableUtils

@@ -1,7 +1,6 @@
 package com.example.steam.network
 
-import com.example.steam.Game
-import com.example.steam.GameResponse
+import com.example.steam.data.GameResponse
 import retrofit2.Call
 import retrofit2.http.GET
 
