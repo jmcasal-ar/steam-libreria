@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "319583616110",
+    "firebase_url": "https://istea2c2020.firebaseio.com",
+    "project_id": "istea2c2020",
+    "storage_bucket": "istea2c2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319583616110:android:453de289d67acaf15fba7f",
+        "android_client_info": {
+          "package_name": "com.example.steam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "319583616110-7ob6rd5pm8jtiaqte38o8rq8muvfukjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2r7FXhNAyTiXDLBIHZUfITqfgXizAu70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "319583616110-7ob6rd5pm8jtiaqte38o8rq8muvfukjp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
